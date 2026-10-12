@@ -1,4 +1,4 @@
-[APK 만드는 방법]
-A) Android Studio: 이 폴더를 열기 → Build > Build APK(s) → app/build/outputs/apk/debug/app-debug.apk
-B) GitHub: 이 폴더를 새 저장소에 올리면 Actions 탭에서 APK 자동 빌드 → Artifacts 다운로드
-C) 배포(Play 스토어)용은 Build > Generate Signed Bundle/APK 로 서명 후 AAB 생성
+[GitHub로 APK 만들기]
+1) 이 폴더의 "내용물"(app, build.gradle, settings.gradle, gradle.properties, .github)을 저장소 맨 위(루트)에 올립니다.
+2) .github 폴더가 안 올라가면 GitHub에서 Add file > Create new file 로 .github/workflows/build.yml 을 만들고 build.yml 내용을 붙여넣습니다.
+3) Actions 탭 > Build APK > Run workflow, 끝나면 Artifacts 에서 KoreaMap-apk 다운로드.
