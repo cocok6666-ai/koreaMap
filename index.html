@@ -158,12 +158,12 @@ const L=el("g",{}),dots=[];
 D.forEach((d,i)=>dots.push(el("circle",{cx:X(d[1]),cy:Y(d[2]),r:3.2,class:"d",fill:d[3]?"#e5262b":"#1f6fe0",style:"stroke:#fff;stroke-width:calc(.7px*var(--k));fill-opacity:.95"},L)));
 const ring=el("circle",{fill:"none",stroke:"#111",style:"display:none;pointer-events:none;stroke-width:calc(2px*var(--k))"});
 const LB=el("g",{}),tx=D.map(d=>{const t=el("text",{x:X(d[1]),y:Y(d[2]),fill:d[3]?"#e5262b":"#1f6fe0"},LB);t.textContent=d[0];t.style.cssText="display:none;font-weight:700;paint-order:stroke;stroke:#fffe;stroke-linejoin:round;pointer-events:none";return t});
-const ord=D.map((d,i)=>i).sort((a,b)=>D[b][3]-D[a][3]);let raf=0,hits=[];
+const ord=D.map((d,i)=>i).sort((a,b)=>D[b][3]-D[a][3]);{const si=D.findIndex(d=>d[0]=="성인봉");if(si>=0){ord.splice(ord.indexOf(si),1);ord.unshift(si);const dp=dots[si].parentNode;dp.appendChild(dots[si]);if(tx[si].parentNode)tx[si].parentNode.appendChild(tx[si])}}let raf=0,hits=[];
 function lay(){cancelAnimationFrame(raf);raf=requestAnimationFrame(()=>{const r=svg.getBoundingClientRect(),on=$("cl").checked,fs=11,pl=[],DB=[];hits=[];{const rp0=Math.max(.15/k,5)+1;D.forEach((d,j)=>{if(dots[j].style.display=="none")return;const x=(X(d[1])-v.x)/k,y=(Y(d[2])-v.y)/k;if(x<-80||y<-40||x>r.width+80||y>r.height+40)return;DB.push([j,x-rp0,y-rp0,x+rp0,y+rp0])});DB.forEach((o,q)=>{DB[q]=[o[0],o[1],o[2],o[3],o[4]]})};ord.forEach(i=>{const t=tx[i],c=dots[i];if(!on||c.style.display=="none"){t.style.display="none";return}
 const d=D[i],sx=(X(d[1])-v.x)/k,sy=(Y(d[2])-v.y)/k;if(sx<-60||sy<-20||sx>r.width+60||sy>r.height+20){t.style.display="none";return}
 const w=d[0].length*fs*.95+8,rp=Math.max(.15/k,5)+1,cd=[[sx+5,sy-fs,sx+5+w,sy+3,"start",X(d[1])+6*k,Y(d[2])+4*k],[sx-5-w,sy-fs,sx-5,sy+3,"end",X(d[1])-6*k,Y(d[2])+4*k],[sx-w/2,sy-rp-fs-3,sx+w/2,sy-rp,"middle",X(d[1]),Y(d[2])-(rp+3)*k],[sx-w/2,sy+rp,sx+w/2,sy+rp+fs+3,"middle",X(d[1]),Y(d[2])+(rp+fs)*k]];
 const ok=q=>!pl.some(p=>q[0]<p[2]&&q[2]>p[0]&&q[1]<p[3]&&q[3]>p[1])&&!DB.some(o=>o[0]!=i&&q[0]<o[3]&&q[2]>o[1]&&q[1]<o[4]&&q[3]>o[2]);
-const ch=i==cur?cd[0]:cd.find(ok);if(!ch){t.style.display="none";return}
+const ch=i==cur?cd[0]:(cd.find(ok)||(d[0]=="성인봉"?cd[2]:null));if(!ch){t.style.display="none";return}
 const b=ch.slice(0,4);pl.push(b);hits.push([i,...b]);t.style.display="";t.setAttribute("text-anchor",ch[4]);t.setAttribute("x",ch[5]);t.setAttribute("y",ch[6]);t.style.fontSize=fs*k+"px";t.style.strokeWidth=3*k+"px"})})}
 let v={x:0,y:0,w:640,h:620},k=1,cur=-1;const W0={...v};
 function fit(){const r=svg.getBoundingClientRect(),a=r.width/r.height;let h=640/a>760?640/a:760,w=h*a;v={x:330-w/2,y:262-h/2,w,h};W0.x=v.x;W0.y=v.y;W0.w=v.w;W0.h=v.h;ap()}
