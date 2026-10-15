@@ -1034,12 +1034,14 @@ lp.addEventListener("click",e=>{if(e.target===lp)lpClose()});
 ;(function(){const _o=openPop;openPop=function(){const r=_o.apply(this,arguments);const p=$("pop");if(p){p.style.pointerEvents="none";clearTimeout(window._pgt);window._pgt=setTimeout(()=>{p.style.pointerEvents=""},550)}return r}})();
 
 
-function fStats(){const l=FL,vs=l.filter(o=>FS.vis.includes(o.id)),bar=(a,b)=>{const n=b?Math.round(10*a/b):0;return "█".repeat(n)+"░".repeat(10-n)};
- const L=["다녀옴 "+vs.length+" / "+l.length+"곳 ("+(l.length?(100*vs.length/l.length).toFixed(1):0)+"%)",bar(vs.length,l.length),"","종류별"];
- FCAT.forEach((nm,c)=>{const a=l.filter(o=>o.c==c),m=a.filter(o=>FS.vis.includes(o.id));L.push(nm+"  "+bar(m.length,a.length)+"  "+m.length+"/"+a.length)});
- const rg={};l.forEach(o=>{const s=o.rg;(rg[s]=rg[s]||[0,0])[1]++;if(FS.vis.includes(o.id))rg[s][0]++});L.push("","지역별 (다녀옴/전체)");
- Object.entries(rg).sort((a,b)=>b[1][0]-a[1][0]||b[1][1]-a[1][1]).forEach(e=>L.push(e[0]+"  "+bar(e[1][0],e[1][1])+"  "+e[1][0]+"/"+e[1][1]));
- $("pt").textContent="📊 맛집 방문 통계";const p=$("pb2");p.style.display="block";p.style.fontSize="14px";p.style.maxHeight="52vh";p.style.overflowY="auto";p.style.whiteSpace="";p.textContent=L.join("\n");const L2=$("pl");L2.innerHTML="";const b2=document.createElement("button");b2.textContent="닫기";b2.style.cssText="flex:1;padding:12px;border-radius:10px;border:1px solid var(--ln);background:transparent;color:var(--tx);font-weight:700;font-size:14px";b2.onclick=()=>{$("pop").style.display="none"};L2.appendChild(b2);$("pop").style.display="flex"}
+function fStats(){const l=FL,vs=l.filter(o=>FS.vis.includes(o.id)),pc=(a,b)=>b?100*a/b:0;
+ const row=(nm,a,b,c)=>"<div style='display:flex;align-items:center;gap:8px;margin:5px 0'><span style='flex:0 0 58px;font-weight:700;font-size:13px'>"+nm+"</span><span style='flex:1;height:10px;border-radius:5px;background:#0001;overflow:hidden'><i style='display:block;height:100%;width:"+pc(a,b).toFixed(1)+"%;background:"+c+";border-radius:5px'></i></span><span style='flex:0 0 62px;text-align:right;font-size:13px;font-variant-numeric:tabular-nums'><b>"+a+"</b><span style='opacity:.6'> / "+b+"</span></span></div>";
+ const hd=t=>"<div style='font-weight:800;font-size:13px;margin:14px 0 4px;padding-bottom:4px;border-bottom:1px solid #0002;opacity:.85'>"+t+"</div>";
+ let h="<div style='text-align:center;padding:4px 0 2px'><div style='font-size:28px;font-weight:800;color:#e5262b;line-height:1.1'>"+vs.length+"<span style='font-size:15px;color:inherit;opacity:.7;font-weight:700'> / "+l.length+"곳</span></div><div style='font-size:13px;opacity:.75;margin:2px 0 8px'>다녀온 맛집 ("+pc(vs.length,l.length).toFixed(1)+"%)</div><div style='height:12px;border-radius:6px;background:#0001;overflow:hidden'><i style='display:block;height:100%;width:"+pc(vs.length,l.length).toFixed(1)+"%;background:#e5262b;border-radius:6px'></i></div></div>";
+ h+=hd("종류별");FCAT.forEach((nm,c)=>{const a=l.filter(o=>o.c==c),m=a.filter(o=>FS.vis.includes(o.id));h+=row(nm,m.length,a.length,FCC[c])});
+ const rg={};l.forEach(o=>{const s=o.rg;(rg[s]=rg[s]||[0,0])[1]++;if(FS.vis.includes(o.id))rg[s][0]++});
+ h+=hd("지역별");Object.entries(rg).sort((a,b)=>b[1][0]-a[1][0]||b[1][1]-a[1][1]).forEach(e=>{h+=row(e[0],e[1][0],e[1][1],"#e5262b")});
+ $("pt").textContent="📊 맛집 방문 통계";const p=$("pb2");p.style.display="block";p.style.fontSize="14px";p.style.maxHeight="56vh";p.style.overflowY="auto";p.style.whiteSpace="normal";p.innerHTML=h;const L2=$("pl");L2.innerHTML="";const b2=document.createElement("button");b2.textContent="닫기";b2.style.cssText="flex:1;padding:12px;border-radius:10px;border:1px solid var(--ln);background:transparent;color:var(--tx);font-weight:700;font-size:14px";b2.onclick=()=>{$("pop").style.display="none"};L2.appendChild(b2);$("pop").style.display="flex"}
 
 
 $("tlt").onclick=()=>{const o=$("tl").classList.toggle("open");$("tlt").textContent="둘레길목록 "+(o?"▴":"▾");if(o)trList()};
